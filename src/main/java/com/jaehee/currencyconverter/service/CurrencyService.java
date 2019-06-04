@@ -11,7 +11,6 @@ public class CurrencyService {
 
     public Double currencyDto(String quoteCurrency){
         CurrencyDto currencyDto = currencyAPIService.getCurrencyDto();
-        System.out.println("USD"+quoteCurrency);
         return currencyDto.getQuotes().get("USD"+quoteCurrency);
     }
 
