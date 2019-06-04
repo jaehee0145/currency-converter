@@ -2,13 +2,17 @@ package com.jaehee.currencyconverter.service;
 
 import com.jaehee.currencyconverter.dto.CurrencyDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-
+@Service
 @RequiredArgsConstructor
-public class CurrencyServiceImpl implements CurrencyService{
+public class CurrencyAPIServiceImpl implements CurrencyAPIService {
     private final RestTemplate restTemplate;
+
+
 
     @Override
     public CurrencyDto getCurrencyDto() {
