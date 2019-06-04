@@ -1,10 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Currency Converter</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.2.1/css/bootstrap.min.css">
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 500px;
+            padding: 10px;
+            margin: 50px auto;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        h1 {
+            font-size: 18px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        h2 {
+            font-size: 15px;
+            font-weight: normal;
+            margin-top: 10px;
+            margin-bottom: 3px;
+        }
+
+        select {
+            width: 100%;
+            padding: 5px;
+            border-radius: 3px;
+        }
+
+        input {
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+
+        button {
+            border: none;
+            box-shadow: none;
+            border-radius: 3px;
+            background: #000;
+            padding: 5px 10px;
+            color: #fff;
+            margin: 10px 0;
+        }
+
+        .result {
+            border-radius: 3px;
+            background: #fdffeb;
+            border: 1px solid #adde99;
+            padding: 8px 20px;
+            color: #adde99;
+            font-size: 15px;
+        }
+    </style>
+    <title>환율 계산기</title>
 </head>
 <body>
-<p>Hello world</p>
+<div class="container" style="margin-top: 150px">
+
+    <h1>환율계산</h1>
+    <ul>
+        <li>
+            <h2>송금국가</h2>
+            <select>
+                <option>미국(USD)</option>
+            </select>
+        </li>
+        <li>
+            <h2>수취국가</h2>
+            <select id ="quoteCurrency" onchange="callCurrencyAPI()">
+                <option value="KRW">한국(KRW)</option>
+                <option value="JPY">일본(JPY)</option>
+                <option value="PHP">필리핀(PHP)</option>
+
+            </select>
+        </li>
+        <li>
+            <h2>환율</h2>
+            <div><span id="exchangeRate"></span></div>
+        </li>
+        <li>
+            <h2>송금액</h2>
+            <input type="number" id="amount" placeholder="입력하세요"><span>USD</span>
+        </li>
+    </ul>
+    <button onclick = "calculate()">submit</button>
+    <div><span id="result"></span></div>
+</div>
 </body>
+
+<script>
+
+    function callCurrencyAPI() {
+        var quoteCurrency = $("#quoteCurrency").val();
+        $.ajax({
+            url: 'api/currency-info?quoteCurrency='+quoteCurrency,
+            type: "GET",
+            success: function(exchangeRate){
+                $('#exchangeRate').text(exchangeRate+ " "+quoteCurrency);
+            }
+        })
+    }
+
+    function calculate(){
+        var amount = $("#amount").val();
+        var exchangeRate = $("#exchangeRate").val();
+
+        var result = amount * exchangeRate;
+        $('#result').text(result);
+
+    }
+
+</script>
+
 </html>
