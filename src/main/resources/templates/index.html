@@ -58,7 +58,7 @@
             url: 'api/exchange-rate?quoteCurrency='+quoteCurrency,
             type: "GET",
             success: function(exchangeRate){
-                $('#exchangeRate').text(exchangeRate.toFixed(2)+ " "+quoteCurrency);
+                $('#exchangeRate').text(Number(exchangeRate.toFixed(2)).toLocaleString('en')+ " "+quoteCurrency);
             }
         })
     }
@@ -70,10 +70,9 @@
             url: 'api/remittance?quoteCurrency='+quoteCurrency+'&amount='+amount,
             type: "GET",
             success: function(remittance){
-                $('#remittance').text(remittance.toFixed(2)+ " "+quoteCurrency);
+                $('#remittance').text(Number(remittance.toFixed(2)).toLocaleString('en')+ " "+quoteCurrency);
             }
         })
-
     }
 
 </script>

@@ -20,6 +20,7 @@ public class CurrencyAPIServiceImpl implements CurrencyAPIService {
     @Override
     public CurrencyDto getCurrencyDto() {
         String url = environment.getProperty("currencyLayer.url")+environment.getProperty("currencyLayer.key");
+        //TODO 3개 국가에 대한 정보만 저장하는게 나을까? enum 클래스 이용해서? 
         CurrencyDto currencyDto = restTemplate.getForObject(url, CurrencyDto.class);
         return currencyDto;
     }
