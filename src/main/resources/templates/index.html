@@ -97,8 +97,8 @@
             <input type="number" id="amount" placeholder="입력하세요"><span>USD</span>
         </li>
     </ul>
-    <button onclick = "calculate()">submit</button>
-    <div><span id="result"></span></div>
+    <button onclick = "getRemittance()">submit</button>
+    <div><span id="remittance"></span></div>
 </div>
 </body>
 
@@ -115,12 +115,16 @@
         })
     }
 
-    function calculate(){
+    function getRemittance(){
         var amount = $("#amount").val();
-        var exchangeRate = $("#exchangeRate").val();
-
-        var result = amount * exchangeRate;
-        $('#result').text(result);
+        var quoteCurrency = $("#quoteCurrency").val();
+        $.ajax({
+            url: 'api/remittance?quoteCurrency='+quoteCurrency+'&amount='+amount,
+            type: "GET",
+            success: function(remittance){
+                $('#remittance').text(remittance.toFixed(2)+ " "+quoteCurrency);
+            }
+        })
 
     }
 
