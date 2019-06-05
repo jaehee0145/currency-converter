@@ -26,7 +26,7 @@ public class CurrencyControllerTest {
         requestDto.setQuoteCurrency("KRW");
         Double remittance1 = currencyApiController.getRemittance(requestDto);
 
-        Double exchangeRate = currencyService.currencyDto("KRW");
+        Double exchangeRate = currencyService.getExchangeRate("KRW");
         Double remittance2 = 50.0 * exchangeRate;
         Assert.assertEquals(remittance1, remittance2);
     }

@@ -5,109 +5,56 @@
     <link rel="stylesheet" href="/webjars/bootstrap/4.2.1/css/bootstrap.min.css">
     <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
     <script src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <title>환율계산</title>
     <style type="text/css">
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            width: 500px;
-            padding: 10px;
-            margin: 50px auto;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        h1 {
-            font-size: 18px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        h2 {
-            font-size: 15px;
-            font-weight: normal;
-            margin-top: 10px;
-            margin-bottom: 3px;
-        }
-
-        select {
-            width: 100%;
-            padding: 5px;
-            border-radius: 3px;
-        }
-
-        input {
-            border: 1px solid #ddd;
-            padding: 5px;
-            border-radius: 3px;
-            margin-right: 5px;
-        }
-
-        button {
-            border: none;
-            box-shadow: none;
-            border-radius: 3px;
-            background: #000;
-            padding: 5px 10px;
-            color: #fff;
-            margin: 10px 0;
-        }
-
-        .result {
-            border-radius: 3px;
-            background: #fdffeb;
-            border: 1px solid #adde99;
-            padding: 8px 20px;
-            color: #adde99;
-            font-size: 15px;
-        }
+        *{margin:0; padding:0; box-sizing: border-box;}
+        body{width:400px; padding:10px; margin:0 auto;}
+        ul{list-style:none; border-top:1px solid #ddd; border-bottom:1px solid #ddd; padding:10px 0; }
+        h1{font-size:20px; text-align: center; margin:20px 0 30px;}
+        h2{font-size:15px; font-weight:normal; margin-top:10px; margin-bottom: 5px; display: inline-block; width:80px;  }
+        select{width:290px; padding:5px; border-radius: 3px; }
+        input{border: 1px solid #ddd; padding:5px; border-radius: 3px; margin-right:5px; text-align: right;}
+        button{border:none; box-shadow:none; border-radius: 3px; background:#000; padding:10px;  color:#fff; margin: 10px 0; width:100%;}
+        .result{border-radius: 3px; padding:10px 0px; color:#888; font-size: 18px; text-align: center; }
     </style>
-    <title>환율 계산기</title>
+
 </head>
 <body>
-<div class="container" style="margin-top: 150px">
-
-    <h1>환율계산</h1>
-    <ul>
-        <li>
-            <h2>송금국가</h2>
-            <select>
-                <option>미국(USD)</option>
-            </select>
-        </li>
-        <li>
-            <h2>수취국가</h2>
-            <select id ="quoteCurrency" onchange="callCurrencyAPI()">
-                <option value="KRW">한국(KRW)</option>
-                <option value="JPY">일본(JPY)</option>
-                <option value="PHP">필리핀(PHP)</option>
-
-            </select>
-        </li>
-        <li>
-            <h2>환율</h2>
-            <div><span id="exchangeRate"></span></div>
-        </li>
-        <li>
-            <h2>송금액</h2>
-            <input type="number" id="amount" placeholder="입력하세요"><span>USD</span>
-        </li>
-    </ul>
-    <button onclick = "getRemittance()">submit</button>
-    <div><span id="remittance"></span></div>
-</div>
+<h1>환율계산</h1>
+<ul>
+    <li>
+        <h2>송금국가</h2>
+        <select>
+            <option>미국(USD)</option>
+        </select>
+    </li>
+    <li>
+        <h2>수취국가</h2>
+        <select id ="quoteCurrency" onchange="getExchangeRate()">
+            <option value="KRW">한국(KRW)</option>
+            <option value="JPY">일본(JPY)</option>
+            <option value="PHP">필리핀(PHP)</option>
+        </select>
+    </li>
+    <li>
+        <h2>환율</h2>
+        <span id="exchangeRate"></span>
+    </li>
+    <li>
+        <h2>송금액</h2>
+        <input type="number" id="amount"><span>USD</span>
+    </li>
+</ul>
+<button onclick = "getRemittance()">submit</button>
+<div class="result">수취금액은 <div class type="number" id="remittance"></div>입니다.</div>
 </body>
 
 <script>
 
-    function callCurrencyAPI() {
+    function getExchangeRate() {
         var quoteCurrency = $("#quoteCurrency").val();
         $.ajax({
-            url: 'api/currency-info?quoteCurrency='+quoteCurrency,
+            url: 'api/exchange-rate?quoteCurrency='+quoteCurrency,
             type: "GET",
             success: function(exchangeRate){
                 $('#exchangeRate').text(exchangeRate.toFixed(2)+ " "+quoteCurrency);

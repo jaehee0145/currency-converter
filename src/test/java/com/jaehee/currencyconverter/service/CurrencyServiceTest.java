@@ -18,7 +18,7 @@ public class CurrencyServiceTest {
 
     @Test
     public void 수취국가에_따라_환율정보_가져오기(){
-        Double exchangeRate1 = currencyService.currencyDto("KRW");
+        Double exchangeRate1 = currencyService.getExchangeRate("KRW");
         CurrencyDto currencyDto = currencyAPIService.getCurrencyDto();
         Double exchangeRate2 = currencyDto.getQuotes().get("USDKRW");
         Assert.assertEquals(exchangeRate1, exchangeRate2, 0);
