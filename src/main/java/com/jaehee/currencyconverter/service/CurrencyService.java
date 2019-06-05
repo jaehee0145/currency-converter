@@ -14,4 +14,8 @@ public class CurrencyService {
         return currencyDto.getQuotes().get("USD"+quoteCurrency);
     }
 
+    //환율, 금액으로 송금액 계산하기
+    public Double getRemittance(Double exchangeRate, int amount){
+        return exchangeRate*amount;
+    };
 }

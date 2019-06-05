@@ -20,7 +20,6 @@ public class CurrencyApiController {
 
     @GetMapping("/currency-info")
     public Double getCurrencyInfo(@ModelAttribute RequestDto requestDto){
-        System.out.println("controller"+requestDto.getQuoteCurrency());
     Double exchangeRate = currencyService.currencyDto(requestDto.getQuoteCurrency());
     return exchangeRate;
     }

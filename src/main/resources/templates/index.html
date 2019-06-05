@@ -110,7 +110,7 @@
             url: 'api/currency-info?quoteCurrency='+quoteCurrency,
             type: "GET",
             success: function(exchangeRate){
-                $('#exchangeRate').text(exchangeRate+ " "+quoteCurrency);
+                $('#exchangeRate').text(exchangeRate.toFixed(2)+ " "+quoteCurrency);
             }
         })
     }
