@@ -13,8 +13,8 @@
       </li>
       <li>
         <h2>수취 국가</h2>
-        <select v-model="quoteCurrency" onchange="getExchangeRate()">
-          <option selected disabled>선택하세요</option>
+        <select v-model="quoteCurrency" @change="getExchangeRate()">
+          <option slot="first" value="" disabled >선택하세요</option>
           <option value="KRW">한국(KRW)</option>
           <option value="JPY">일본(JPY)</option>
           <option value="PHP">필리핀(PHP)</option>
@@ -52,25 +52,16 @@
       },
       getExchangeRate() {
         let quoteCurrency = this.quoteCurrency;
-        this.$http.get('/api/exchange-rate?quoteCurrency=KRW')
+        this.$http.get('/api/exchange-rate?quoteCurrency='+quoteCurrency)
           .then(response => {
             console.log(response);
-            this.exchangeRate = response.data;
+            this.exchangeRate = Number(response.data.toFixed(2)).toLocaleString('en')+' '+quoteCurrency;
           })
           .catch(error => {
             console.log(error);
           })
-
-        // this.exchangeRate = response;})
       },
-      // getExchangeRate() {
-      //   let quoteCurrency = $("#quoteCurrency").val();
-      //   this.$http.get('/exchange-rate?quoteCurrency=' + quoteCurrency).then((response) => {
-      //     this.exchangeRate = response;
-      //     // $('#exchangeRate').text(Number(exchangeRate.toFixed(2)).toLocaleString('en') + " " + quoteCurrency);
-      //
-      //   })
-      // },
+
 
       getRemittance() {
         var amount = $("#amount").val();
