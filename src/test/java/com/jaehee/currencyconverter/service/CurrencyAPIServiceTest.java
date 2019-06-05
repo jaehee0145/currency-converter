@@ -18,6 +18,8 @@ public class CurrencyAPIServiceTest {
     public void 외부API를_호출해서_DTO형식으로_가져오기(){
         CurrencyDto currencyDto = currencyAPIService.getCurrencyDto();
         Assert.assertNotNull(currencyDto);
+
     }
+
 
 }
