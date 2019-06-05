@@ -23,4 +23,11 @@ public class CurrencyApiController {
     Double exchangeRate = currencyService.currencyDto(requestDto.getQuoteCurrency());
     return exchangeRate;
     }
+
+    @GetMapping("/remittance")
+    public Double getRemittance(@ModelAttribute RequestDto requestDto){
+        Double exchangeRate = currencyService.currencyDto(requestDto.getQuoteCurrency());
+        return currencyService.getRemittance(exchangeRate, requestDto.getAmount());
+
+    }
 }

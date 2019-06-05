@@ -15,7 +15,7 @@ public class CurrencyService {
     }
 
     //환율, 금액으로 송금액 계산하기
-    public Double getRemittance(Double exchangeRate, int amount){
+    public Double getRemittance(Double exchangeRate, Double amount){
         return exchangeRate*amount;
     };
 }

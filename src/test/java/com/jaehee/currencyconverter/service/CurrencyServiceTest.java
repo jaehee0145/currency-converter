@@ -26,7 +26,7 @@ public class CurrencyServiceTest {
 
     @Test
     public void 환율과_금액으로_송금액_계산하기(){
-        Double remittance = currencyService.getRemittance(100.00, 50);
+        Double remittance = currencyService.getRemittance(100.00, 50.0);
         Assert.assertEquals(remittance, 5000.00, 0);
     }
 }
