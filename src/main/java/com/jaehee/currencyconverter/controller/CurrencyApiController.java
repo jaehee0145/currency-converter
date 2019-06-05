@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class CurrencyApiController {
     private final CurrencyService currencyService;
 
+    @GetMapping("/test")
+    public String test(){
+        return "return";
+    }
+
     @GetMapping("/exchange-rate")
     public Double getExchangeRate(@ModelAttribute RequestDto requestDto) {
         Double exchangeRate = currencyService.getExchangeRate(requestDto.getQuoteCurrency());
