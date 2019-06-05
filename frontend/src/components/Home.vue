@@ -14,7 +14,7 @@
       <li>
         <h2>수취 국가</h2>
         <select v-model="quoteCurrency" @change="getExchangeRate()">
-          <option slot="first" value="" disabled >선택하세요</option>
+          <option slot="first" value="" disabled>선택하세요</option>
           <option value="KRW">한국(KRW)</option>
           <option value="JPY">일본(JPY)</option>
           <option value="PHP">필리핀(PHP)</option>
@@ -26,12 +26,12 @@
       </li>
       <li>
         <h2>송금액</h2>
-        <input type="number" id="amount"><span>USD</span>
+        <input type="number" v-model="amount"><span>USD</span>
       </li>
     </ul>
-    <button @click="getExchangeRate()">submit</button>
+    <button @click="getRemittance()">submit</button>
     <div class="result">수취금액은
-      <div class type="number" id="remittance"></div>
+      <div class type="number" id="remittance">{{remittance}}</div>
       입니다.
     </div>
   </div>
@@ -43,42 +43,38 @@
     data() {
       return {
         exchangeRate: '',
-        quoteCurrency: ''
+        quoteCurrency: '',
+        amount: '',
+        remittance: ''
       }
     },
     methods: {
-      test(){
+      test() {
         this.$http.get('/api/test').then(response => console.log(response))
       },
       getExchangeRate() {
         let quoteCurrency = this.quoteCurrency;
-        this.$http.get('/api/exchange-rate?quoteCurrency='+quoteCurrency)
+        this.$http.get('/api/exchange-rate?quoteCurrency=' + quoteCurrency)
           .then(response => {
             console.log(response);
-            this.exchangeRate = Number(response.data.toFixed(2)).toLocaleString('en')+' '+quoteCurrency;
+            this.exchangeRate = Number(response.data.toFixed(2)).toLocaleString('en') + ' ' + quoteCurrency;
           })
           .catch(error => {
             console.log(error);
           })
       },
 
-
       getRemittance() {
-        var amount = $("#amount").val();
-        var quoteCurrency = $("#quoteCurrency").val();
-        $.ajax({
-          url: 'api/remittance?quoteCurrency=' + quoteCurrency + '&amount=' + amount,
-          type: "GET",
-          success: function (remittance) {
-            $('#remittance').text(Number(remittance.toFixed(2)).toLocaleString('en') + " " + quoteCurrency);
-          },
-          error: function (data) {
-            alert("어떻게?? ");
-          }
-        })
-
+        let amount = this.amount;
+        let quoteCurrency = this.quoteCurrency;
+        this.$http.get('/api/remittance?quoteCurrency=' + quoteCurrency + '&amount=' + amount)
+          .then(response => {
+            this.remittance = Number(response.data.toFixed(2)).toLocaleString('en') + " " + quoteCurrency;
+          })
+          .catch(error => {
+            console.log(error);
+          })
       }
-      //
     }
   }
 </script>
