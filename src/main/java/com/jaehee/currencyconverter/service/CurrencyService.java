@@ -13,12 +13,14 @@ public class CurrencyService {
     //수취 국가에 따라 환율 정보 가져오기
     public Double getExchangeRate(String quoteCurrency){
         CurrencyDto currencyDto = currencyAPIService.getCurrencyDto();
-        Double exchangeRate = currencyDto.getQuotes().get("USD"+quoteCurrency);
+        Double exchangeRate = 0.0;
+        exchangeRate=currencyDto.getQuotes().get("USD"+quoteCurrency);
+
         return exchangeRate;
     }
 
     //환율, 금액으로 송금액 계산하기
-    public Double getRemittance(Double exchangeRate, Double amount){
+    public Double getRemittance(Double exchangeRate, int amount){
         Double remittance = exchangeRate*amount;
         return remittance;
     };
