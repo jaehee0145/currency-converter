@@ -69,7 +69,7 @@
             // API를 통해 응답받은 환율 정보를 숫자 표기 요구사항에 맞게 처리하고 리턴
             this.exchangeRate = Number(response.data.toFixed(2)).toLocaleString('en') + ' ' + quoteCurrency;
           }, (err) => {
-              alert("문제가 발생했습니다.")
+              alert("죄송합니다. 서버에 문제가 발생했습니다.")
           });
         // .catch(error => {
         //   console.log(error);
@@ -84,6 +84,10 @@
           return;
         }
         let quoteCurrency = this.quoteCurrency;
+        if(quoteCurrency.length == 0){
+          alert("수취 국가를 선택해주세요");
+          return;
+        }
         this.$http.get('/api/remittance?quoteCurrency=' + quoteCurrency + '&amount=' + amount)
           .then(response => {
             // API를 통해 응답받은 수취 금액을 숫자 표기 요구사항에 맞게 처리하고 리턴

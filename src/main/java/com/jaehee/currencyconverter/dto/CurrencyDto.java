@@ -8,7 +8,8 @@ import java.util.Map;
 @Getter
 @Setter
 public class CurrencyDto {
-    //TODO dto가 적절한 이름인지 확인
+    private boolean success;
     private String source;
     private Map<String, Double> quotes;
+    private Map<String, String> error;
 }

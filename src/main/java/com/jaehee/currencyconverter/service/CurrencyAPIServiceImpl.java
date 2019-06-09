@@ -16,18 +16,28 @@ public class CurrencyAPIServiceImpl implements CurrencyAPIService {
 
     @Autowired
     private Environment environment;
+    private CurrencyDto currencyDto;
 
     //외부 API에 요청을 보내서 환율 정보를 DTO 형식으로 가져오기
     @Override
     public CurrencyDto getCurrencyDto() {
         String url = environment.getProperty("currencyLayer.url") + environment.getProperty("currencyLayer.key");
-        //TODO 3개 국가에 대한 정보만 저장하는게 나을까? enum 클래스 이용해서? 
-        CurrencyDto currencyDto = restTemplate.getForObject(url, CurrencyDto.class);
-        //source가 "USD"인 경우에만 currencyDTO를 리턴
-        if (currencyDto.getSource().equals("USD") ) {
-            return currencyDto;
-        } else {
+        currencyDto = restTemplate.getForObject(url, CurrencyDto.class);
+
+        validateCurrencyDto();
+return currencyDto;
+    }
+
+    private void validateCurrencyDto() {
+        if (currencyDto == null) {
             throw new RestClientException("API Error");
+        } else if (!currencyDto.isSuccess()) {
+            throw new RestClientException("API Error- " + currencyDto.getError().get("code") + " : "
+                    + currencyDto.getError().get("info"));
+            //source가 "USD"가 아니면 Exception
+        } else if (!currencyDto.getSource().equals("USD")) {
+            throw new RestClientException("API Error- 환율 정보 source를 확인하세요");
         }
+
     }
 }
