@@ -1,18 +1,26 @@
 package com.jaehee.currencyconverter.exception;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
+import com.jaehee.currencyconverter.dto.ErrorDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.RestClientException;
 
 @ControllerAdvice
-@Slf4j
 public class ExceptionController {
     @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity handleNullPointerException(NullPointerException e) {
-        log.warn(e.getClass().getName() + " : " + e.getMessage());
-        return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON_UTF8)
-                .body("{\"message\":" + e.getMessage() + "}");
+    public ResponseEntity handleException(NullPointerException e) {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setMessage(e.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @ExceptionHandler(RestClientException.class)
+    public ResponseEntity handleException(RestClientException e) {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setMessage(e.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
 }

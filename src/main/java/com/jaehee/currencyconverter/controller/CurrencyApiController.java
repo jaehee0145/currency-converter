@@ -22,20 +22,13 @@ public class CurrencyApiController {
 
 
     @GetMapping("/exchange-rate")
-    public ResponseEntity getExchangeRate(@Valid @ModelAttribute RequestDto requestDto, Errors errors) {
+    public ResponseEntity getExchangeRate(@Valid @ModelAttribute RequestDto requestDto) {
         Double exchangeRate = currencyService.getExchangeRate(requestDto.getQuoteCurrency());
-       //TODO 테스트코드 필요
-//        if(requestDto==null){
-//            ResponseDto responseDto = new ResponseDto();
-//            responseDto.setMessage("Error");
-//            return new ResponseEntity<>(responseDto, HttpStatus.NO_CONTENT);
-//        }
         return new ResponseEntity<>(exchangeRate, HttpStatus.OK);
     }
 
     @GetMapping("/remittance")
-    public ResponseEntity getRemittance(@ModelAttribute RequestDto requestDto, Errors errors) {
-
+    public ResponseEntity getRemittance(@ModelAttribute RequestDto requestDto) {
         Double exchangeRate = currencyService.getExchangeRate(requestDto.getQuoteCurrency());
         Double remittance = currencyService.getRemittance(exchangeRate, requestDto.getAmount());
         return new ResponseEntity<> (remittance, HttpStatus.OK);

@@ -25,7 +25,7 @@ public class CurrencyAPIServiceImpl implements CurrencyAPIService {
         currencyDto = restTemplate.getForObject(url, CurrencyDto.class);
 
         validateCurrencyDto();
-return currencyDto;
+        return currencyDto;
     }
 
     private void validateCurrencyDto() {
