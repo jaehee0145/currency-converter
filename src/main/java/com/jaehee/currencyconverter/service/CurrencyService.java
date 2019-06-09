@@ -13,9 +13,7 @@ public class CurrencyService {
     //수취 국가에 따라 환율 정보 가져오기
     public Double getExchangeRate(String quoteCurrency){
         CurrencyDto currencyDto = currencyAPIService.getCurrencyDto();
-        Double exchangeRate = 0.0;
-        exchangeRate=currencyDto.getQuotes().get("USD"+quoteCurrency);
-
+        Double exchangeRate =currencyDto.getQuotes().get("USD"+quoteCurrency);
         return exchangeRate;
     }
 

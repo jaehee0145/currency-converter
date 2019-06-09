@@ -8,9 +8,7 @@
 
       <li>
         <h2>송금 국가</h2>
-        <select>
-          <option>미국(USD)</option>
-        </select>
+        <span> 미국(USD) </span>
       </li>
 
       <li>
@@ -40,7 +38,7 @@
       입니다.
     </div>
 
-    <div v-if="errors.length" >
+    <div v-if="errors.length">
       <ul>
         <li v-for="error in errors" :key="error.id">{{ error }}</li>
       </ul>
@@ -70,16 +68,21 @@
             console.log(response);
             // API를 통해 응답받은 환율 정보를 숫자 표기 요구사항에 맞게 처리하고 리턴
             this.exchangeRate = Number(response.data.toFixed(2)).toLocaleString('en') + ' ' + quoteCurrency;
-          })
-          .catch(error => {
-            console.log(error);
-          })
+          }, (err) => {
+              alert("문제가 발생했습니다.")
+          });
+        // .catch(error => {
+        //   console.log(error);
+        // })
       },
 
 
       getRemittance() {
         let amount = this.amount;
-        if (amount < 0|| amount>10000) {alert("송금액이 바르지 않습니다."); return;}
+        if (amount < 0 || amount > 10000) {
+          alert("송금액이 바르지 않습니다.");
+          return;
+        }
         let quoteCurrency = this.quoteCurrency;
         this.$http.get('/api/remittance?quoteCurrency=' + quoteCurrency + '&amount=' + amount)
           .then(response => {
