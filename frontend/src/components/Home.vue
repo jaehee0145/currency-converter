@@ -2,7 +2,7 @@
 
   <div class="hello">
 
-    <h1>환율 계산</h1>
+    <h1>환율계산</h1>
 
     <ul>
 
@@ -69,7 +69,7 @@
             // API를 통해 응답받은 환율 정보를 숫자 표기 요구사항에 맞게 처리하고 리턴
             this.exchangeRate = Number(response.data.toFixed(2)).toLocaleString('en') + ' ' + quoteCurrency;
           }, (err) => {
-              alert("죄송합니다. 서버에 문제가 발생했습니다.")
+            alert("죄송합니다. 서버에 문제가 발생했습니다.")
           });
         // .catch(error => {
         //   console.log(error);
@@ -79,12 +79,15 @@
 
       getRemittance() {
         let amount = this.amount;
-        if (amount < 0 || amount > 10000) {
-          alert("송금액이 바르지 않습니다.");
+        if (amount.length == 0) {
+          alert("송금액을 입력해주세요");
+          return;
+        } else if (amount < 0 || amount > 10000) {
+          alert("송금액이 범위를 벗어났습니다( 0<=송금액<=10000 )");
           return;
         }
         let quoteCurrency = this.quoteCurrency;
-        if(quoteCurrency.length == 0){
+        if (quoteCurrency.length == 0) {
           alert("수취 국가를 선택해주세요");
           return;
         }
@@ -95,6 +98,7 @@
           })
           .catch(error => {
             console.log(error);
+            alert("죄송합니다. 서버에 문제가 발생했습니다.")
           })
       }
     }
