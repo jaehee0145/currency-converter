@@ -1,36 +1,59 @@
 # Currency Converter  
 ## 소개 
 SpringBoot와 Vue.js로 만든 환율 계산기  
+![img](.frontend/src/assets/img.PNG)
 
-## 요구 사항에 대한 구현 방법 
-1. 송금국가는 미국으로 고정입니다. 통화는 미국달러(USD)입니다.
-   - 외부 API를 통해 받은 환율 정보의 source가 "USD"인 경우에만 실행되도록 처리  
-   - 외부 API의 문제로 미국 이외 국가의 환율 정보를 받게 되는 경우를 대비해 예외 처리       
+## 실행 방법
+1. 해당 프로젝트를 clone
+```bash
+git clone https://github.com/jaehee0145/currency-converter.git
+```
+2. 프로젝트 폴더로 이동
+```bash
+cd currency-converter
+```
+3. Maven으로 프로젝트를 생성
+```bash
+mvn install
+```
+4. jar파일로 패키징된 프로젝트를 실행
+```bash
+java -jar target/currency-converter-0.0.1-SNAPSHOT.jar
+```
+5. localhost:8080 으로 접속
 
-2. 수취국가는 한국, 일본, 필리핀 세 군데 중 하나를 select box로 선택합니다. 각각 통화는 KRW, JPN, PHP 입니다. 수취국가를 선택하면 아래 환율이 바뀌어나타나야 합니다. 환율은 1 USD 기준으로 각각 KRW, JPN, PHP의 대응 금액입니다. 
-   - 수취 국가를 선택하면 API 호출을 통해서 통화에 해당하는 환율 정보 가져옵니다.  
-   
-3. 송금액을 USD로 입력하고 Submit을 누르면 아래 다음과 같이 수취금액이 KRW, JPN, PHP 중 하나로 계산되어서 나와야 합니다. 
-   - API 호출을 통해서 수취국가, 송금액를 이용해서 수취금액을 계산 후 리턴  
-  
-4. 환율과 수취금액은 소숫점 2째자리까지, 3자리 이상 되면 콤마를 가운데 찍어 보여줍니다. 예를 들어 1234라면 1,234.00으로 나타냅니다. 
-   - index.html에서 자바스크립트 문법을 통해 처리| 
-5. 환율정보는 https://currencylayer.com/ 의 무료 서비스를 이용해서 실시간으로 가져와야 합니다. 웹 서버가 시작될 때 한번 가져와서 계속 사용해도 되고, 매번 새로운 환율 정보를 가져와도 됩니다. 
-   - 셀렉트 박스에서 수취 국가를 선택할때마다 통신함| 
-6. 새로운 무료 계정을 등록해서 API 키를 받아서 사용하면 됩니다. 샘플로 등록된 계정의 키를 예를 들면 다음과 같습니다. http://www.apilayer.net/api/live?access_key=ee50cd7cc73c9b7a7bb3d9617cfb6b9c
-   - 관리를 용이하게 하기 위해 application.properties에 저장 |
-7. 환율을 미리 계산해서 html/javascript 안에 넣어두고 수취국가를 변경할 때마다 이를 자바스크립트로 바로 가져와서 보여줘도 좋고, 혹은 매번 수취국가를 선택/변경할 때마다 API로 서버에 요청을 해서 환율정보를 가져오게 해도 좋습니다. 
-    - 수취 국가를 선택할때마다 API 요청을 하고 환율 정보를 가져오도록 처리. TODO 왜?
-8.  Submit을 누르면 선택된 수취국가와 그 환율, 그리고 송금액을 가지고 수취금액을 계산해서 하단에 보여주면 됩니다. API를 이용해서 서버에서 계산해서 뿌려도 되고 자바스크립트로 미리 가져온 환율을 계산해서 수취금액을 보여줘도 되고 Submit 버튼으로 폼을 submit해서 화면을 새로 그려도 됩니다. 
-    - Submit 버튼을 누르면 API 통신으로 새로운 환율 정보를 가져오고 서버에서 송금액과 계산해서 수취 금액을 반환. 
-9.  수취금액을 입력하지 않거나, 0보다 작은 금액이거나 10,000 USD보다 큰 금액, 혹은 바른 숫자가 아니라면 “송금액이 바르지 않습니다"라는 에러 메시지를 보여줍니다. 메시지는 팝업, 혹은 하단에 빨간 글씨로 나타나면 됩니다. 
-    -  
-본 테스트는 지원자의 스프링 숙련도를 보기 위한 테스트이며 핵심 기능을 스프링으로 구현하셔야 합니다.
-사용기술은 스프링 4.0이후 버전을 사용하면 어떤 기술을 이용해도 상관없습니다. 스프링 부트를 이용해도 됩니다.
-    - 
-테스트 코드를 만드시면 가산점이 있습니다.
-     - 
-클라이언트 화면은 스프링의 뷰 기술(jsp, thymeleaf 등)을 이용해도 좋고, React나 Angular 등을 이용해도 좋습니다.
-     - vu
-작성한 코드는 github에 올리고 조회가능한 주소를 보내주면 됩니다.
-    - 
+## 설계 및 구현   
+
+1. 외부 API 호출
+    - 최신 정보를 제공하는 것이 중요하다고 판단해서 환율 정보와 수취 금액을 요청할 때마다 외부 API를 요청하도록 설계했습니다. 
+    - API 교체 경우를 대비해 Interface에 기능을 선언하고 Class에서 해당 기능을 구현했습니다. 
+      또, 외부 API 요청 이외의 기능은 별도 Class에서 구현해서 모듈화시켰습니다.  
+    - Timeout 설정을 이용해서 외부 API 요청 지연으로 인한 문제를 방지했습니다. 
+    - 외부 API 요청에 필요한 Url과 Access key는 용이하게 관리하기 위해 application.properties에 저장했습니다.
+    - 외부 API를 이용해 가져온 데이터를 사용하기 전에 유효성 검사를 진행합니다. 
+        (송금 국가가 고정이므로 source가 "USD"로 일치하는지 등등)
+    
+2. 수취 국가, 송금액에 따라 환율 정보, 수취 금액 가져오기 
+    - 수취 국가, 송금액을 입력하면 API 호출을 통해 환율 정보, 수취 금액을 가져옵니다. 
+    - 요청을 보낼때마다 외부 API 요청을 통해 새로운 환율 정보를 가져와서 연산에 이용합니다.
+    - Controller는 @RequestMapping을 통해 요청을 받고 ResponseEntity를 이용해 응답을 하는 역할만 하고 
+     외부 API 요청, 환율 정보 연산, 수취 금액 연산 등의 비즈니스 로직은 Service가 처리합니다.  
+    - 수취 국가, 송금액은 Frontend와 Backend에서 각각 유효성 검사를 합니다.    
+    - 환율 정보, 수취 금액은 JavaScript 문법을 이용해 표기법에 맞게 표시됩니다. 
+
+3. Vue.js를 이용해 화면 구현  
+    - Maven 프로젝트 내에 Vue.js 프로젝트를 생성했습니다. 
+    - 프로젝트 빌드시 WAS가 접근 가능한 경로에 html, css, js 파일이 생성되도록 설정해 연동했습니다.  
+
+## 개선 사항  
+
+1. 외부 API 호출 주기 설정  
+    - 최신 정보를 유지하는 것이 중요하다고 생각해서 정보를 요청할 때마다 외부 API를 요청하도록 설계했습니다. 현재 이용하고 있는 Free Plan은 하루 주기로 정보를 업데이트 하기 때문에 API를 경제적으로 사용하기 위해 호출 주기를 설정할 예정입니다. 
+2. 테스트 코드 추가  
+    - 기본적인 테스트 코드만 작성한 상태라 다양한 경우를 테스트 할 수 있도록 테스트 코드를 추가할 예정입니다.  
+
+## 개발 일지   
+[[Currency Converter] Day 1](https://jaehee0145.github.io/currency%20converter/Currency-Converter-Day1/)  
+[[Currency Converter] Day 2](https://jaehee0145.github.io/currency%20converter/Currency-Converter-Day2/)  
+[[Currency Converter] Day 3](https://jaehee0145.github.io/currency%20converter/Currency-Converter-Day3/)  
+[[Currency Converter] Day 4](https://jaehee0145.github.io/currency%20converter/Currency-Converter-Day4/)  
