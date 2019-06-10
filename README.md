@@ -25,7 +25,7 @@ java -jar target/currency-converter-0.0.1-SNAPSHOT.jar
 
 ## 설계 및 구현   
 
-1. 외부 API 호출
+### 1. 외부 API 호출
     - **최신 정보를 제공**하는 것이 중요하다고 판단해서 **환율 정보와 수취 금액을 요청할 때마다 외부 API를 요청**하도록 설계했습니다. 
     - API 교체 경우를 대비해 Interface에 기능을 선언하고 Class에서 해당 기능을 구현했습니다. 
       또, 외부 API 요청 이외의 기능은 별도 Class에서 구현해서 모듈화시켰습니다.  
@@ -34,7 +34,7 @@ java -jar target/currency-converter-0.0.1-SNAPSHOT.jar
     - 외부 API를 이용해 가져온 데이터를 사용하기 전에 유효성 검사를 진행합니다. 
         (송금 국가가 고정이므로 source가 "USD"로 일치하는지 등등)
     
-2. 수취 국가, 송금액에 따라 환율 정보, 수취 금액 가져오기 
+### 2. 수취 국가, 송금액에 따라 환율 정보, 수취 금액 가져오기 
     - 수취 국가, 송금액을 입력하면 API 호출을 통해 환율 정보, 수취 금액을 가져옵니다. 
     - 요청을 보낼때마다 외부 API 요청을 통해 새로운 환율 정보를 가져와서 연산에 이용합니다.
     - **Controller는 @RequestMapping을 통해 요청을 받고 ResponseEntity를 이용해 응답을 하는 역할**만 하고 
@@ -42,7 +42,7 @@ java -jar target/currency-converter-0.0.1-SNAPSHOT.jar
     - 수취 국가, 송금액은 Frontend와 Backend에서 각각 유효성 검사를 합니다.    
     - 환율 정보, 수취 금액은 JavaScript 문법을 이용해 표기법에 맞게 표시됩니다. 
 
-3. Vue.js를 이용해 화면 구현  
+### 3. Vue.js를 이용해 화면 구현  
     - Maven 프로젝트 내에 **Vue.js 프로젝트를 생성**했습니다. 
     - 프로젝트 빌드시 WAS가 접근 가능한 경로에 html, css, js 파일이 생성되도록 설정해 연동했습니다.  
 
