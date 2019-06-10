@@ -1,7 +1,7 @@
 # Currency Converter  
 ## 소개 
 SpringBoot와 Vue.js로 만든 환율 계산기  
-![img](.frontend/src/assets/img.PNG)
+![img](frontend/src/assets/img.PNG)
 
 ## 실행 방법
 1. 해당 프로젝트를 clone
