@@ -4,6 +4,23 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'vuetify/dist/vuetify.min.css'
+import Vuetify from 'vuetify'
+import Notifications from 'vue-notification'
+import icon from 'vue-awesome/components/Icon'
+import 'vue-awesome/icons'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+
+Vue.component('icon',icon);
+Vue.use(Vuetify)
+Vue.use(BootstrapVue);
+Vue.use(Notifications);
+Vue.use(Vuetify, {
+  iconfont: 'mdi' // 'md' || 'mdi' || 'fa' || 'fa4'
+})
 
 Vue.prototype.$http = axios
 Vue.config.productionTip = false

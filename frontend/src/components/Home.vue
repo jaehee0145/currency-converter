@@ -1,49 +1,33 @@
 <template>
+  <div class="container">
+    <div class="row justify-content-center mt-5 mb-5">
+      <v-app style="width:30%;">
+        <h1>환율 계산</h1>
+        <ul>
+          <li>
+            <h2>송금 국가</h2>
+            <span>미국(USD)</span>
+          </li>
 
-  <div class="hello">
-
-    <h1>환율계산</h1>
-
-    <ul>
-
-      <li>
-        <h2>송금 국가</h2>
-        <span> 미국(USD) </span>
-      </li>
-
-      <li>
-        <h2>수취국가</h2>
-        <select v-model="quoteCurrency" @change="getExchangeRate()">
-          <option slot="first" disabled>선택하세요</option>
-          <option value="KRW">한국(KRW)</option>
-          <option value="JPY">일본(JPY)</option>
-          <option value="PHP">필리핀(PHP)</option>
-        </select>
-      </li>
-      <li>
-        <h2>환율</h2>
-        <span>{{exchangeRate}}</span>
-      </li>
-      <li>
-        <h2>송금액</h2>
-        <input type="number" v-model="amount"><span>USD</span>
-      </li>
-
-    </ul>
-
-    <button @click="getRemittance()">submit</button>
-
-    <div class="result" v-if="remittance">수취금액은
-      <div class type="number" id="remittance">{{remittance}}</div>
-      입니다.
+          <li>
+            <h2>수취 국가</h2>
+            <v-select v-model="quoteCurrency" @change="getExchangeRate()"
+                      :items="items" label="선택하세요">
+            </v-select>
+          </li>
+          <li>
+            <h2>환율</h2>
+            <span >{{exchangeRate}}</span>
+          </li>
+          <li>
+            <h2>송금액</h2>
+            <input type="number" v-model="amount" :rules="nameRules"><span>USD</span>
+          </li>
+        </ul>
+        <v-btn :disabled="!valid" @click="getRemittance()" color="info">submit</v-btn>
+        <div class="result" v-if="remittance">수취금액은 <span>{{remittance}}</span> 입니다.</div>
+      </v-app>
     </div>
-
-    <div v-if="errors.length">
-      <ul>
-        <li v-for="error in errors" :key="error.id">{{ error }}</li>
-      </ul>
-    </div>
-
   </div>
 </template>
 
@@ -52,12 +36,16 @@
     name: 'Home',
     data() {
       return {
+        items: [{value: 'KRW', text: '한국(KRW)'}, {value: 'JPY', text: '일본(JPY)'}, {value: 'PHP', text: '필리핀(PHP)'}],
         exchangeRate: '',
         quoteCurrency: '',
         amount: '',
         remittance: '',
         email: '',
-        errors: []
+        errors: [],
+        valid: true,
+        nameRules: [
+          v => !!v || '이름을 입력하세요'],
       }
     },
     methods: {
@@ -113,7 +101,7 @@
     box-sizing: border-box;
   }
 
-  body {
+  template {
     width: 400px;
     padding: 10px;
     margin: 0 auto;
@@ -121,19 +109,23 @@
 
   ul {
     list-style: none;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+    border-top: 2px solid #ddd;
+    border-bottom: 2px solid #ddd;
     padding: 10px 0;
   }
 
+  li {
+    margin-bottom: 10px;
+  }
+
   h1 {
-    font-size: 20px;
+    font-size: 21px;
     text-align: center;
     margin: 20px 0 30px;
   }
 
   h2 {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: normal;
     margin-top: 10px;
     margin-bottom: 5px;
@@ -145,6 +137,7 @@
     width: 290px;
     padding: 5px;
     border-radius: 3px;
+    font-size: 15px;
   }
 
   input {
@@ -163,14 +156,18 @@
     padding: 10px;
     color: #fff;
     margin: 10px 0;
-    width: 100px;
+    width: 100%;
+  }
+  span {
+    color:rgb(24, 41, 116);
+    font-size: 16px;
   }
 
   .result {
     border-radius: 3px;
     padding: 10px 0px;
-    color: #888;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
+    color: rgb(24, 41, 116)
   }
 </style>
