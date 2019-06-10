@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="row justify-content-center mt-5 mb-5">
-      <v-app style="width:30%;">
+    <div class="row mt-5 mb-5">
+      <div style="width:30%;">
         <h1>환율 계산</h1>
         <ul>
           <li>
@@ -11,22 +11,25 @@
 
           <li>
             <h2>수취 국가</h2>
-            <v-select v-model="quoteCurrency" @change="getExchangeRate()"
-                      :items="items" label="선택하세요">
-            </v-select>
+            <select class="selectbox" v-model="quoteCurrency" @change="getExchangeRate()">
+              <option slot="first" disabled>선택하세요</option>
+              <option value="KRW">한국(KRW)</option>
+              <option value="JPY">일본(JPY)</option>
+              <option value="PHP">필리핀(PHP)</option>
+            </select>
           </li>
           <li>
             <h2>환율</h2>
-            <span >{{exchangeRate}}</span>
+            <span>{{exchangeRate}}</span>
           </li>
           <li>
             <h2>송금액</h2>
             <input type="number" v-model="amount" :rules="nameRules"><span>USD</span>
           </li>
         </ul>
-        <v-btn :disabled="!valid" @click="getRemittance()" color="info">submit</v-btn>
+        <button class="btn" :disabled="!valid" @click="getRemittance()" @keypress="getRemittance()">submit</button>
         <div class="result" v-if="remittance">수취금액은 <span>{{remittance}}</span> 입니다.</div>
-      </v-app>
+      </div>
     </div>
   </div>
 </template>
@@ -116,6 +119,7 @@
 
   li {
     margin-bottom: 10px;
+    width: 100%;
   }
 
   h1 {
@@ -131,13 +135,15 @@
     margin-bottom: 5px;
     display: inline-block;
     width: 80px;
+    font-weight: bold;
   }
 
-  select {
-    width: 290px;
+  .selectbox {
+    width: 200px;
     padding: 5px;
     border-radius: 3px;
     font-size: 15px;
+    border: 1px solid #aaaaaa;
   }
 
   input {
@@ -148,7 +154,7 @@
     text-align: right;
   }
 
-  button {
+  .btn {
     border: none;
     box-shadow: none;
     border-radius: 3px;
@@ -156,10 +162,11 @@
     padding: 10px;
     color: #fff;
     margin: 10px 0;
-    width: 100%;
+    width: 80px;
   }
+
   span {
-    color:rgb(24, 41, 116);
+    color: rgb(24, 41, 116);
     font-size: 16px;
   }
 
@@ -170,4 +177,5 @@
     text-align: center;
     color: rgb(24, 41, 116)
   }
+
 </style>
